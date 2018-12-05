@@ -19,12 +19,13 @@ public class ExampleResourceClient {
         .path("/{id}")
         .resolveTemplate("id", id);
 
-    Response response = target.request()
+    try (Response response = target.request()
         .accept(MediaType.APPLICATION_JSON)
-        .get();
-    m_helper.throwOnResponseError(target, response);
+        .get()) {
+      m_helper.throwOnResponseError(target, response);
 
-    return response.readEntity(ExampleEntityDo.class);
+      return response.readEntity(ExampleEntityDo.class);
+    }
   }
 }
 //end::class[]
